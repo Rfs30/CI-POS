@@ -1,18 +1,18 @@
-<div class="modal fade" id="modaltambahkategori" tabindex="-1" aria-labelledby="modaltambahkategoriLabel" aria-hidden="true">
+<div class="modal fade" id="modalformedit" tabindex="-1" aria-labelledby="modalformeditLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fs-5" id="modaltambahkategoriLabel">Tambah Kategori</h5>
+                <h5 class="modal-title" id="modalformeditLabel">Edit Satuan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?= form_open('kategori/simpandata', ['class' => 'formsimpan']) ?>
-            <input type="hidden" name="aksi" id="aksi" value="<?= $aksi; ?>">
+            <?= form_open('satuan/updatedata', ['class' => 'formsimpan']) ?>
+            <input type="hidden" name="idsatuan" value="<?= $idsatuan; ?>">
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="">Nama Kategori</label>
-                    <input type="text" name="namakategori" id="namakategori" class="form-control form-control-sm" required>
+                    <label for="">Nama Satuan</label>
+                    <input type="text" name="namasatuan" id="namasatuan" class="form-control form-control-sm" required value="<?= $namasatuan; ?>">
                 </div>
             </div>
             <div class="modal-footer">
@@ -37,22 +37,17 @@
                     $('.tombolSimpan').html('<i class="fa fa-spin fa-spinner"></i>')
                 },
                 success: function(response) {
-                    let aksi = $('#aksi').val();
                     if (response.sukses) {
-                        if (aksi == 0) {
-                            Swal.fire(
-                                'Berhasil',
-                                response.sukses,
-                                'success'
-                            ).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.reload();
-                                }
-                            });
-                        } else {
-                            tampilKategori();
-                            $('#modaltambahkategori').modal('hide');
-                        }
+                        Swal.fire(
+                            'Berhasil',
+                            response.sukses,
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+
                     }
                 },
                 error: function(xhr, thrownError) {

@@ -1,7 +1,7 @@
 <?= $this->extend('layout/menu') ?>
 
 <?= $this->section('title') ?>
-<h3>Manajemen Data Kategori</h3>
+<h3>Manajemen Data Satuan</h3>
 <?= $this->endSection() ?>
 
 
@@ -25,11 +25,11 @@
     </div>
     <div class="card-body">
 
-        <form method="POST" action="/kategori">
+        <form method="POST" action="/satuan">
             <?= csrf_field(); ?>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Cari Nama Kategori" name="carikategori" autofocus value="<?= $cari; ?>">
-                <button class="btn btn-primary" type="submit" name="tombolkategori">Cari</button>
+                <input type="text" class="form-control" placeholder="Cari Nama Satuan" name="carisatuan" autofocus value="<?= $cari; ?>">
+                <button class="btn btn-primary" type="submit" name="tombolsatuan">Cari</button>
             </div>
         </form>
 
@@ -37,7 +37,7 @@
             <thead>
                 <tr>
                     <th>NO</th>
-                    <th>Nama Kategori</th>
+                    <th>Nama Satuan</th>
                     <th>#</th>
                 </tr>
             </thead>
@@ -45,16 +45,16 @@
 
             <tbody>
                 <?php $nomor = 1 + (($noHalaman - 1) * 10);
-                foreach ($datakategori as $row) :
+                foreach ($datasatuan as $row) :
                 ?>
                     <tr>
                         <td><?= $nomor++; ?></td>
-                        <td><?= $row['katnama']; ?></td>
+                        <td><?= $row['satnama']; ?></td>
                         <td>
-                            <button type="button" class="btn btn-info btn-sm" title="Edit Kategori" onclick="edit('<?= $row['katid'] ?>')">
+                            <button type="button" class="btn btn-info btn-sm" title="Edit Satuan" onclick="edit('<?= $row['satid'] ?>')">
                                 <i class="fa fa-pencil-alt"></i>
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="hapus('<?= $row['katid'] ?>','<?= $row['katnama'] ?>')">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="hapus('<?= $row['satid'] ?>','<?= $row['satnama'] ?>')">
                                 <i class="fa fa-trash-alt"></i>
                             </button>
                         </td>
@@ -64,7 +64,7 @@
         </table>
 
         <div class="float-center">
-            <?= $pager->links('kategori', 'paging_data'); ?>
+            <?= $pager->links('satuan', 'paging_data'); ?>
         </div>
 
     </div>
@@ -74,8 +74,8 @@
 <script>
     function hapus(id, nama) {
         Swal.fire({
-            title: "Hapus Kategori",
-            html: `Yakin Hapus nama Kategori <strong>${nama}</strong> Ini ?`,
+            title: "Hapus Satuan",
+            html: `Yakin Hapus nama Satuan <strong>${nama}</strong> Ini ?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -86,9 +86,9 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: "post",
-                    url: "<?= site_url('kategori/hapus') ?>",
+                    url: "<?= site_url('satuan/hapus') ?>",
                     data: {
-                        idkategori: id
+                        idsatuan: id
                     },
                     dataType: "json",
                     success: function(response) {
@@ -104,16 +104,16 @@
     function edit(id) {
         $.ajax({
             type: "post",
-            url: "<?= site_url('kategori/formEdit') ?>",
+            url: "<?= site_url('satuan/formEdit') ?>",
             data: {
-                idkategori: id
+                idsatuan: id
             },
             dataType: "json",
             success: function(response) {
                 if (response.data) {
                     $('.viewmodal').html(response.data).show();
                     $('#modalformedit').on('shown.bs.modal', function(event) {
-                        $('#namakategori').focus();
+                        $('#namasatuan').focus();
                     });
                     $('#modalformedit').modal('show');
                 }
@@ -130,16 +130,19 @@
             e.preventDefault();
 
             $.ajax({
-                url: "<?= site_url('kategori/formTambah') ?>",
-                data: "",
+                url: "<?= site_url('satuan/formTambah') ?>",
+                data: {
+                    aksi: 0
+                },
+                type: 'post',
                 dataType: "json",
                 success: function(response) {
                     if (response.data) {
                         $('.viewmodal').html(response.data).show();
-                        $('#modaltambahkategori').on('shown.bs.modal', function(event) {
-                            $('#namakategori').focus();
+                        $('#modaltambahsatuan').on('shown.bs.modal', function(event) {
+                            $('#namasatuan').focus();
                         });
-                        $('#modaltambahkategori').modal('show');
+                        $('#modaltambahsatuan').modal('show');
                     }
                 },
                 error: function(xhr, thrownError) {

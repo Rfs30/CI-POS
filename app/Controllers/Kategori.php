@@ -6,7 +6,6 @@ use App\Models\Modelkategori;
 
 class Kategori extends BaseController
 {
-    protected $kategori;
 
     public function __construct()
     {
@@ -41,8 +40,9 @@ class Kategori extends BaseController
     function formTambah()
     {
         if ($this->request->isAJAX()) {
+            $aksi = $this->request->getPost('aksi');
             $msg = [
-                'data' => view('kategori/modalformtambah')
+                'data' => view('kategori/modalformtambah', ['aksi' => $aksi])
             ];
 
             echo json_encode($msg);
@@ -76,6 +76,41 @@ class Kategori extends BaseController
 
             $msg = [
                 'sukses' => 'kategori berhasil dihapus'
+            ];
+            echo json_encode($msg);
+        }
+    }
+
+    function formEdit()
+    {
+        if ($this->request->isAJAX()) {
+            $idKategori =  $this->request->getVar('idkategori');
+
+            $ambildatakategori = $this->kategori->find($idKategori);
+            $data = [
+                'idkategori' => $idKategori,
+                'namakategori' => $ambildatakategori['katnama']
+            ];
+
+            $msg = [
+                'data' => view('kategori/modalformedit', $data)
+            ];
+            echo json_encode($msg);
+        }
+    }
+
+    function updatedata()
+    {
+        if ($this->request->isAJAX()) {
+            $idKategori = $this->request->getVar('idkategori');
+            $namaKategori = $this->request->getVar('namakategori');
+
+            $this->kategori->update($idKategori, [
+                'katnama' => $namaKategori
+            ]);
+
+            $msg = [
+                'sukses' =>  'Data kategori berhasil diupdate'
             ];
             echo json_encode($msg);
         }
