@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Modelkategori;
 use App\Models\Modelproduk;
+use App\Models\Modelsatuan;
 
 class Produk extends BaseController
 {
@@ -12,9 +14,29 @@ class Produk extends BaseController
         $this->db = db_connect();
     }
 
-    public function index(): string
+    public function index()
     {
-        return view('produk/data');
+        $tombolCari = $this->request->getPost('tombolcariproduk');
+
+        if (isset($tombolCari)) {
+            $cari = $this->request->getPost('cariproduk');
+            session()->set('cariproduk', $cari);
+            redirect()->to('/produk');
+        } else {
+            $cari = session()->get('cariproduk');
+        }
+
+        $dataProduk = $cari ? $this->produk->cariData($cari) : $this->produk->join('kategori', 'katid=produk_katid')
+            ->join('satuan', 'satid=produk_satid');
+
+        $noHalaman = $this->request->getVar('page_produk') ? $this->request->getVar('page_produk') : 1;
+        $data = [
+            'dataproduk' => $dataProduk->paginate(6, 'produk'),
+            'pager' => $this->produk->pager,
+            'noHalaman' => $noHalaman,
+            'cari' => $cari
+        ];
+        return view('produk/data', $data);
     }
 
     public function add()
@@ -149,7 +171,7 @@ class Produk extends BaseController
                     $fileGambar = $this->request->getFile('uploadgambar');
                     $fileGambar->move('assets/upload', $namaFileGambar . '.' . $fileGambar->getExtension());
 
-                    $pathGambar = '.assets/upload/' . $fileGambar->getName();
+                    $pathGambar = 'assets/upload/' . $fileGambar->getName();
                 } else {
                     $pathGambar = '';
                 }
@@ -166,7 +188,112 @@ class Produk extends BaseController
                 ]);
 
                 $msg = [
-                    'sukses' => 'Berhasil dieksekusi'
+                    'sukses' => 'Produk berhasil ditambahkan'
+                ];
+            }
+
+            echo json_encode($msg);
+        }
+    }
+    public function hapus()
+    {
+        if ($this->request->isAJAX()) {
+            $kodebarcode = $this->request->getPost('kode');
+
+            $this->produk->delete($kodebarcode);
+            $msg = [
+                'sukses' => 'Produk berhasil dihapus'
+            ];
+            echo json_encode($msg);
+        }
+    }
+
+    public function edit($kode)
+    {
+        $row = $this->produk->find($kode);
+        $dataKategori = new Modelkategori();
+        $dataSatuan = new Modelsatuan();
+
+        if ($row) {
+            $data = [
+                'kode' => $row['kodebarcode'],
+                'nama' => $row['namaproduk'],
+                'stok' => $row['stok_tersedia'],
+                'produkkategori' => $row['produk_katid'],
+                'datakategori' => $dataKategori->findAll(),
+                'produksatuan' => $row['produk_satid'],
+                'datasatuan' => $dataSatuan->findAll(),
+                'hargabeli' => $row['harga_beli'],
+                'hargajual' => $row['harga_jual'],
+                'gambarproduk' => $row['gambar']
+            ];
+            return view('/produk/formedit', $data);
+        } else {
+            exit('Data Tidak ditemukan');
+        }
+    }
+    public function updatedata()
+    {
+        if ($this->request->isAJAX()) {
+            $kodebarcode = $this->request->getVar('kodebarcode');
+            $namaproduk = $this->request->getVar('namaproduk');
+            $stok = $this->request->getVar('stok');
+            $kategori = $this->request->getVar('kategori');
+            $satuan = $this->request->getVar('satuan');
+            $hargabeli = str_replace(',', '', $this->request->getVar('hargabeli'));
+            $hargajual = str_replace(',', '', $this->request->getVar('hargajual'));
+
+            $validation =  \Config\Services::validation();
+
+            $doValid = $this->validate([
+                'namaproduk' => [
+                    'label' => 'Nama Produk',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'uploadgambar' => [
+                    'label' => 'Upload Gambar',
+                    'rules' => 'mime_in[uploadgambar,image/png,image/jpg,image/jpeg]|ext_in[uploadgambar,png,jpg,jpeg]|is_image[uploadgambar]',
+                ]
+            ]);
+
+            if (!$doValid) {
+                $msg = [
+                    'error' => [
+                        'errorNamaProduk' => $validation->getError('namaproduk'),
+                        'errorUpload' => $validation->getError('uploadgambar')
+                    ]
+                ];
+            } else {
+                $uploadGambar = $_FILES['uploadgambar']['name'];
+
+                $rowDataProduk = $this->produk->find($kodebarcode);
+
+                if ($uploadGambar != NULL) {
+                    unlink($rowDataProduk['gambar']);
+                    $namaFileGambar = "$kodebarcode-$namaproduk";
+                    $fileGambar = $this->request->getFile('uploadgambar');
+                    $fileGambar->move('assets/upload', $namaFileGambar . '.' . $fileGambar->getExtension());
+
+                    $pathGambar = 'assets/upload/' . $fileGambar->getName();
+                } else {
+                    $pathGambar = $rowDataProduk['gambar'];
+                }
+
+                $this->produk->update($kodebarcode, [
+                    'namaproduk' => $namaproduk,
+                    'produk_satid' => $satuan,
+                    'produk_katid' => $kategori,
+                    'stok_tersedia' => $stok,
+                    'harga_beli' => $hargabeli,
+                    'harga_jual' => $hargajual,
+                    'gambar' => $pathGambar
+                ]);
+
+                $msg = [
+                    'sukses' => 'Produk berhasi diupdate'
                 ];
             }
 

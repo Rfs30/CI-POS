@@ -28,6 +28,10 @@ $routes->post('/satuan/updatedata', 'Satuan::updatedata');
 
 // route produk
 $routes->get('/produk', 'Produk::index');
+$routes->post('/produk', 'Produk::index');
+$routes->post('/produk/hapus', 'Produk::hapus');
+$routes->post('/produk/updatedata', 'Produk::updatedata');
+$routes->get('/produk/edit/(:any)', 'Produk::edit/$1');
 $routes->get('/produk/add', 'Produk::add');
 $routes->get('/produk/ambilDataKategori', 'Produk::ambilDataKategori');
 $routes->get('/produk/ambilDataSatuan', 'Produk::ambilDataSatuan');
