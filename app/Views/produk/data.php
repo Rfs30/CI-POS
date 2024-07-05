@@ -9,6 +9,12 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">
+            <a button type="button" class="btn btn-sm btn-primary mr-1" href="<?= site_url('produk/printdata') ?>" target="_blank">
+                <i class="fa fa-print"></i> Print
+            </a>
+        </h3>
+
+        <h3 class="card-title">
             <button type="button" class="btn btn-sm btn-primary" onclick="window.location='<?= site_url('produk/add') ?>'">
                 <i class="fa fa-plus"></i> Tambah Data
             </button>

@@ -14,11 +14,11 @@ class Kategori extends BaseController
 
     public function index(): string
     {
-
         $tombolCari = $this->request->getPost('tombolkategori');
 
         if (isset($tombolCari)) {
             $cari = $this->request->getPost('carikategori');
+
             session()->set('carikategori', $cari);
             redirect()->to('/kategori');
         } else {

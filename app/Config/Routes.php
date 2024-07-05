@@ -5,7 +5,13 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Layout::index');
+// Login
+$routes->get('/', 'Login::index');
+$routes->post('/login/cekUser', 'Login::cekUser');
+$routes->get('/logout', 'Login::logout');
+
+// back office
+$routes->get('/layout', 'Layout::index');
 
 // route kategori
 $routes->get('/kategori', 'Kategori::index');
@@ -36,3 +42,22 @@ $routes->get('/produk/add', 'Produk::add');
 $routes->get('/produk/ambilDataKategori', 'Produk::ambilDataKategori');
 $routes->get('/produk/ambilDataSatuan', 'Produk::ambilDataSatuan');
 $routes->post('/produk/simpandata', 'Produk::simpandata');
+$routes->get('/produk/printdata', 'Laporan::PrintDataProduk');
+
+// route penjualan
+$routes->get('/penjualan', 'Penjualan::index');
+$routes->get('/penjualan/input', 'Penjualan::input');
+$routes->get('/penjualan/viewDataProduk', 'Penjualan::viewDataProduk');
+$routes->post('/penjualan/viewDataProduk', 'Penjualan::viewDataProduk');
+$routes->post('/penjualan/dataDetail', 'Penjualan::dataDetail');
+$routes->post('/penjualan/listDataProduk', 'Penjualan::listDataProduk');
+$routes->post('/penjualan/simpanTemp', 'Penjualan::simpanTemp');
+$routes->post('/penjualan/hitungTotalBayar', 'Penjualan::hitungTotalBayar');
+$routes->post('/penjualan/hapusItem', 'Penjualan::hapusItem');
+$routes->post('/penjualan/batalTransaksi', 'Penjualan::batalTransaksi');
+$routes->post('/penjualan/pembayaran', 'Penjualan::pembayaran');
+$routes->post('/penjualan/simpanPembayaran', 'Penjualan::simpanPembayaran');
+$routes->post('/penjualan/cetakStruk', 'Penjualan::cetakStruk');
+
+
+$routes->get('laporan/stokproduk', 'Laporan::laporanStokProdak');

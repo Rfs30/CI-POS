@@ -34,6 +34,8 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'filterAdmin'   => \App\Filters\FilterAdmin::class,
+        'filterKasir'   => \App\Filters\FilterKasir::class,
     ];
 
     /**
@@ -72,10 +74,17 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            'filterAdmin' => [
+                'except' => ['login/*', 'login', '/']
+            ],
+            'filterKasir' => [
+                'except' => ['login/*', 'login', '/']
+            ]
         ],
         'after' => [
             // 'honeypot',
             // 'secureheaders',
+            'filterKasir' => ['except' => ['layout', 'penjualan', 'penjualan/*',]]
         ],
     ];
 

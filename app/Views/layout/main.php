@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Blank Page</title>
+  <title>Kasir Pintar</title>
 
+  <link href="<?= base_url('assets/img/kasir_pintar.ico'); ?>" rel="icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -46,6 +47,11 @@
             <i class="fas fa-th-large"></i>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?= site_url('logout') ?>" role="button" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -53,9 +59,9 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../../index3.html" class="brand-link">
-        <img src="<?= base_url('assets') ?>/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">POS</span>
+      <a href="/" class="brand-link">
+        <!-- <img src="<?= base_url('assets') ?>/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+        <i class="fas fa-store ml-3 mr-1 text-warning"></i> <span class="brand-text font-weight-light"><i>KASIR PINTAR</i></span>
       </a>
 
       <!-- Sidebar -->
@@ -63,10 +69,10 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="<?= base_url('assets') ?>/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="<?= base_url('assets') ?>/img/<?= session()->get('image'); ?>" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
+            <a href="#" class="d-block"><?= session()->get('namauser'); ?></a>
           </div>
         </div>
 
