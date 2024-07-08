@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use PHPUnit\Util\Json;
 use App\Models\Modeldataproduk;
+use App\Models\Modelpenjualan;
 use Config\Services;
 
 use Escpos\PrintConnectors\WindowsPrintConnector;
@@ -20,6 +21,20 @@ class Penjualan extends BaseController
     public function index(): string
     {
         return view('penjualan/index');
+    }
+
+    public function data(): string
+    {
+        $penjualan = new Modelpenjualan();
+        $dataPenjualan = $penjualan->asArray();
+
+        $noHalaman = $this->request->getVar('page_penjualan') ? $this->request->getVar('page_penjualan') : 1;
+        $data = [
+            'datapenjualan' => $dataPenjualan->paginate(6, 'penjualan'),
+            'pager' => $penjualan->pager,
+            'noHalaman' => $noHalaman,
+        ];
+        return view('penjualan/data', $data);
     }
 
     public function input()

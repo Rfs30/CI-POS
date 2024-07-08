@@ -28,6 +28,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6">
                     <?= form_open('login/cekUser'); ?>
                     <?= csrf_field(); ?>

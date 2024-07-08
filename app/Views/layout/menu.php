@@ -40,16 +40,6 @@
         </a>
     </li>
 
-    <li class="nav-header">Transaksi</li>
-    <li class="nav-item">
-        <a href="<?= site_url('penjualan') ?>" class="nav-link">
-            <i class="nav-icon fas fa-cash-register"></i>
-            <p>
-                Penjualan
-            </p>
-        </a>
-    </li>
-
     <li class="nav-header">Laporan</li>
     <li class="nav-item">
         <a href="#" class="nav-link">
@@ -61,9 +51,17 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="laporan/stokproduk" class="nav-link ">
+                <a href="<?= site_url('laporan/stokproduk'); ?>" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Laporan Stok Produk</p>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="<?= site_url('laporan/penjualan'); ?>" class="nav-link ">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Laporan Penjualan</p>
                 </a>
             </li>
         </ul>
@@ -92,21 +90,17 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="./index.html" class="nav-link ">
+                <a href="<?= site_url('laporan/stokproduk'); ?>" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Laporan Harian</p>
+                    <p>Laporan Stok Produk</p>
                 </a>
             </li>
+        </ul>
+        <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="<?= site_url('laporan/penjualan'); ?>" class="nav-link ">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Laporan bulanan</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Laporan Tahunan</p>
+                    <p>Laporan Penjualan</p>
                 </a>
             </li>
         </ul>

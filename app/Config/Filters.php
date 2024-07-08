@@ -84,7 +84,8 @@ class Filters extends BaseFilters
         'after' => [
             // 'honeypot',
             // 'secureheaders',
-            'filterKasir' => ['except' => ['layout', 'penjualan', 'penjualan/*',]]
+            'filterKasir' => ['except' => ['layout', 'penjualan', 'penjualan/*', 'laporan', 'laporan/*']],
+            'filterAdmin' => ['except' => ['layout', 'produk', 'produk/*', 'kategori', 'kategori/*', 'satuan', 'satuan/*', 'laporan', 'laporan/*']],
         ],
     ];
 

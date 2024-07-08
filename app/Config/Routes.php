@@ -46,6 +46,7 @@ $routes->get('/produk/printdata', 'Laporan::PrintDataProduk');
 
 // route penjualan
 $routes->get('/penjualan', 'Penjualan::index');
+$routes->get('/penjualan/data', 'Penjualan::data');
 $routes->get('/penjualan/input', 'Penjualan::input');
 $routes->get('/penjualan/viewDataProduk', 'Penjualan::viewDataProduk');
 $routes->post('/penjualan/viewDataProduk', 'Penjualan::viewDataProduk');
@@ -61,3 +62,5 @@ $routes->post('/penjualan/cetakStruk', 'Penjualan::cetakStruk');
 
 
 $routes->get('laporan/stokproduk', 'Laporan::laporanStokProdak');
+$routes->get('laporan/penjualan', 'Laporan::laporanPenjualan');
+$routes->get('laporan/printdatapenjualan', 'Laporan::printDataPenjualan');
